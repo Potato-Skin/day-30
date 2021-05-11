@@ -1,10 +1,11 @@
 import React from "react";
-import logo from "./logo.svg";
+// import logo from "./logo.svg";
 import "./App.css";
 import contacts from "./contacts.json";
 
 function App() {
   const [contactsArr, setContactsArr] = React.useState(contacts.slice(0, 5));
+  const [backgroundColor, setBackgroundColor] = React.useState("");
 
   function addRandomContact() {
     const randomIndex = Math.floor(Math.random() * contacts.length);
@@ -35,11 +36,12 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <div className="App" style={{ backgroundColor: backgroundColor }}>
       <h1>IronContacts</h1>
       <button onClick={addRandomContact}>Add Random Contact</button>
       <button onClick={sortByName}>Sort by name</button>
       <button onClick={sortByPops}>Sort by pops</button>
+      <BackgroundChanger setBackgroundColor={setBackgroundColor} />
       <table>
         <thead>
           <tr>
@@ -54,7 +56,9 @@ function App() {
             function deleteThisContact() {
               deleteContact(index);
             }
-
+            {
+              /* cmd + / */
+            }
             //
             return (
               <Celeb
@@ -91,20 +95,79 @@ function Celeb(props) {
   );
 }
 
-function hello() {
-  console.log(1);
+function BackgroundChanger(props) {
+  // onChange = { handleInputChange };
+  const [backgroundInput, setBackgroundInput] = React.useState("");
+
+  function handleInputChange(event) {
+    setBackgroundInput(event.target.value);
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+
+    console.log("STOPPED");
+    props.setBackgroundColor(backgroundInput);
+    /* 
+    onSubmit = i want you to do this code
+    if (we never call event.preventDefault)
+    handleSubmit()
+    refreshed the page
+
+    if (we call prevent default)
+
+    handleSubmit
+    can i refresh? Nope, because i was told not to
+    */
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <h1>Which color do you want the background to be?</h1>
+      <input
+        type="text"
+        placeholder="Write your color!"
+        value={backgroundInput}
+        // onChange={event => handleInputChange(event)}
+        onChange={handleInputChange}
+      />
+      <button>AGAIN</button>
+    </form>
+  );
 }
 
-// hello; // function definition
-// hello(); // invoking / calling the function
+// function hello() {
+//   console.log(1);
+// }
 
-// const jello = () => console.log("Jay Ho")
-// hello
-// hello()
-// jello
-// jello()
+// // hello; // function definition
+// // hello(); // invoking / calling the function
 
-// const log = console.log
-// log
+// // const jello = () => console.log("Jay Ho")
+// // hello
+// // hello()
+// // jello
+// // jello()
+
+// // const log = console.log
+// // log
+
+// function beforeArrow() {
+//   console.log("HELLO");
+//   return 2;
+// }
+
+// const withArrow = () => {
+//   console.log("HELLO");
+//   return 2;
+// };
+
+// function beforeWithArgs(a, b) {
+//   // do something with a, b
+// }
+
+// const withArrowWithArgs = (a, b) => {
+//   // do something with a, b
+// };
 
 export default App;
